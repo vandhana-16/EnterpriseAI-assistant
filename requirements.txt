@@ -28,8 +28,8 @@ sqlalchemy==2.0.31
 aiosqlite==0.20.0
 
 # Authentication
-python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
 
 # Utilities
 python-dotenv==1.0.1
