@@ -9,7 +9,7 @@ langchain-community==0.2.6
 langchain-huggingface==0.0.3
 
 # Vector Store — FAISS (pre-built wheels, no C++ compiler needed on Windows)
-faiss-cpu==1.8.0
+faiss-cpu==1.14.3
 
 # Embeddings
 sentence-transformers==3.0.1
