@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/enterprise-ai/uploads
+      - ./vectorstore:/enterprise-ai/vectorstore
+      - ./enterprise_ai.db:/enterprise-ai/enterprise_ai.db
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  # Optional: uncomment to use PostgreSQL instead of SQLite
+  # db:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_USER: aiuser
+  #     POSTGRES_PASSWORD: aipassword
+  #     POSTGRES_DB: enterprise_ai
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+# volumes:
+#   pgdata:

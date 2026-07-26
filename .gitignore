@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Environment
+.env
+
+# Database
+*.db
+*.sqlite3
+
+# Uploads & Vectorstore (user data — don't commit)
+uploads/
+vectorstore/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
