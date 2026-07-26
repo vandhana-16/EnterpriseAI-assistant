@@ -33,6 +33,9 @@ passlib[bcrypt]==1.7.4
 bcrypt==4.0.1
 
 
+# Testing
+pytest==8.2.2
+
 # Utilities
 python-dotenv==1.0.1
 pydantic==2.8.2

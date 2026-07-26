@@ -9,7 +9,7 @@ import os
 
 from app.core.config import settings
 from app.db.database import init_db
-from app.api.routes import auth, documents, chat, health
+from app.api.routes import auth, documents, chat, health, admin
 
 # ─── Logging ─────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -52,6 +52,7 @@ app.include_router(health.router)
 app.include_router(auth.router,      prefix="/api/v1")
 app.include_router(documents.router, prefix="/api/v1")
 app.include_router(chat.router,      prefix="/api/v1")
+app.include_router(admin.router,     prefix="/api/v1")
 
 # ─── Serve Frontend ──────────────────────────────────────────────────────────
 FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend")

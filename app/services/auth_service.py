@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, func
 from fastapi import HTTPException, status
 
 from app.models.models import User
@@ -13,11 +13,16 @@ async def register_user(data: UserRegister, db: AsyncSession) -> User:
     if result.scalar_one_or_none():
         raise HTTPException(status_code=400, detail="Email already registered")
 
+    # Bootstrap RBAC: the first account ever created becomes the admin,
+    # every account after that is a regular employee.
+    count_result = await db.execute(select(func.count()).select_from(User))
+    is_first_user = count_result.scalar_one() == 0
+
     user = User(
         email=data.email,
         full_name=data.full_name,
         hashed_password=hash_password(data.password),
-        role="employee",
+        role="admin" if is_first_user else "employee",
     )
     db.add(user)
     await db.commit()
@@ -55,3 +60,9 @@ async def get_user_by_id(user_id: int, db: AsyncSession) -> User:
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
+
+
+async def list_all_users(db: AsyncSession) -> list[User]:
+    """Admin-only: return every registered user, oldest first."""
+    result = await db.execute(select(User).order_by(User.id))
+    return list(result.scalars().all())

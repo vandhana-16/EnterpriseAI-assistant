@@ -51,3 +51,18 @@ async def get_current_user(
     if not user_id:
         raise HTTPException(status_code=401, detail="Invalid token payload")
     return {"user_id": int(user_id), "email": payload.get("email"), "role": payload.get("role")}
+
+
+# ─── Dependency: Admin-only Access (RBAC) ─────────────────────────────────────
+async def require_admin(current_user: dict = Depends(get_current_user)) -> dict:
+    """FastAPI dependency — inject into any route that only admins may access.
+
+    Reuses get_current_user (so it still validates the JWT), then checks the
+    'role' claim embedded in the token at login time.
+    """
+    if current_user.get("role") != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin access required",
+        )
+    return current_user
